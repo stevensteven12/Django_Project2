@@ -1,0 +1,25 @@
+{% extends 'example/_base.html' %}
+
+{% block content %}{% endblock content %}
+
+{% block script %}
+  <script>
+    var socket = new WebSocket("ws://127.0.0.1:9000/?session_key=abcdefg");
+
+    socket.onopen = function open() {
+      console.log('WebSockets connection created.');
+    };
+
+    socket.onmessage = function(e) {
+        alert(e.data);
+    }
+    socket.onopen = function() {
+        socket.send("hello world");
+    }
+
+
+    if (socket.readyState == WebSocket.OPEN) {
+      socket.onopen();
+    }
+  </script>
+{% endblock script %}
