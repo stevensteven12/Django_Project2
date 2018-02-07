@@ -14,7 +14,6 @@ from bokeh.resources import CDN
 from bokeh.embed import file_html
 import time
 import threading
-from .tasks import myTask
 
 
 from .models import Question

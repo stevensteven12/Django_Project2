@@ -1,4 +1,5 @@
 GROUP_NAME = 'liveblog'
-IFANR_FEED_URL = 'http://www.ifanr.com/feed'
-#GROUP_NAME = 'yahoo_test'
+#IFANR_FEED_URL = 'http://www.ifanr.com/feed'
 #IFANR_FEED_URL = 'http://feeds.bbci.co.uk/zhongwen/trad/rss.xml'
+IFANR_FEED_URL = 'http://feeds.bbci.co.uk/news/world/rss.xml'
+#IFANR_FEED_URL = 'http://www.bbc.com/news'

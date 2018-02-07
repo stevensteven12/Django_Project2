@@ -32,4 +32,4 @@ class Command(BaseCommand):
                     Group(const.GROUP_NAME).send({'text': json.dumps(entry)})
                     rc.hset(const.GROUP_NAME, entry.get('id'), json.dumps(entry))
                     logger.debug('send a message %s ' % entry.get('title'))
-                    time.sleep(5)
+                    time.sleep(3)
