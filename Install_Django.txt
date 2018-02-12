@@ -1,0 +1,52 @@
+1. Go the the website : https://www.python.org/downloads/ to download file.
+2. Set Python path. (C:\Users\Steven\AppData\Local\Programs\Python\Python36-32)
+3. python --version
+4. Set path for pip: C:\Users\Steven\AppData\Local\Programs\Python\Python36-32\Scripts
+5. Install Djando: pip install django
+6. python -m django --version
+
+
+Make virtual environment
+1. pip install virtualenv
+2. create a folder and enter this folder (for enrironment)
+3. virtualenv env
+4. activate
+5. pip install django==1.10.5 channels==1.0.2 asgi_redis==1.0.0 (example only)
+Note:
+pip install Twisted[tls,http2] for channels (websocket)
+pip install pypiwin32 for channels (websocket)
+Install all relative module: pip install -r requirements.txt
+pip freeze: show all installation package version
+
+Django
+
+1. django-admin startproject mysite (the path is C:\Users\Steven\AppData\Local\Programs\Python\Python36-32\Scripts)
+2. python manage.py runserver (python manage.py runserver 8080)
+3. add a new API in project mysite: python manage.py startapp polls
+4. python manage.py migrate
+
+5. Create model
+6. python manage.py makemigrations polls (add 'polls.apps.PollsConfig' in INSTALLED_APPS)
+7. python manage.py sqlmigrate polls 0001
+8. python manage.py migrate
+
+// create admin
+9. python manage.py createsuperuser
+10. python manage.py runserver
+11. python manage.py runserver 8080
+
+Others:
+1. Enter the virtual environment: 
+   path C:\Users\Steven\Envs\pythonthreeEnv\Scripts
+   activate.bat
+2. Leave virtual environment
+   deactivate
+3. install moudles at the same time: pip install channels==1.1.2 asgi_redis==0.9
+4. 
+
+Error:
+1. server - HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+Resolve: pip install Twisted[tls,http2]
+2. Error trying to receive messages: name 'txredisapi' is not defined: asgi_redis must update to 1.4.3
+3. ImportError: cannot import name 'build_endpoint_description_strings': daphne update to 1.3.0
+4. 
