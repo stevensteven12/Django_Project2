@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <title>Example Channels</title>
+
+  <h1>HTML XHTML</h1>
+  <h2>HTML XHTML</h2>
+</head>
+<body>
+  <script>
+    var socket = new WebSocket('ws://' + window.location.host + '/chat/');
+
+    socket.onopen = function open() {
+      socket.send("hello world");
+      console.log('WebSockets connection created.');
+
+    };
+
+    if (socket.readyState == WebSocket.OPEN) {
+      socket.onopen();
+    }
+
+    socket.onmessage = function message(event) {
+      var myHeading = document.querySelector('h1');
+      myHeading.textContent = event.data;
+
+      var head_2 = document.querySelector('h2');
+      head_2.textContent = event.data;
+
+      var li_1 = document.querySelector('li');
+      li_1.textContent = event.data + ': ' + event.data;
+
+    //  alert(event.data);
+    };
+
+  </script>
+
+  <div class="container">
+    <br>
+    <h2>{{ message.name }}的 Name </h2>
+
+  </div>
+
+  <li id="h"> </li>
+  <p id="demo" onclick="myFunction()">Click me.</p>
+
+  <script>
+    function myFunction() {
+      document.getElementById("demo").innerHTML = "YOU CLICKED ME!";
+
+    }
+  </script>
+</body>
+</html>

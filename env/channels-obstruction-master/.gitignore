@@ -1,0 +1,11 @@
+.history/
+.vscode/
+node_modules/
+fixtures/
+static/bundles/
+**.pyc
+db.sqlite3
+
+.DS_Store
+.idea/
+webpack-stats.json

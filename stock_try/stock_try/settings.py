@@ -31,24 +31,29 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-djcelery.setup_loader()
+
 #BROKER_URL = 'amqp://'
 #BROKER_URL = 'django://'
 BROKER_URL = 'redis://localhost//'
-CELERY_ACCEPT_CONTENT = ['pickle']
+# Celery settings
+# 如果rabbitmq運行在默認設置下，CELERY不需要其他信息，只要amqp://即可。
+# BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+BROKER_URL = 'amqp://'
+CELERY_RESULT_BACKEND = 'amqp://'
+#: Only add pickle to this list if your broker is secured
+#: from unwanted access (see userguide/security.html)
+CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
-
-CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
-CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 CELERY_TIMEZONE = 'Asia/Taipei'
+CELERY_ENABLE_UTC = True
+
 
 
 INSTALLED_APPS = [
     'djcelery',  #celery: used for schedule control
     'kombu.transport.django',
     'polls.apps.PollsConfig',
-#    'stock_api.apps.StockApiConfig',
     'stock_api',
     'django.contrib.admin',
     'django.contrib.auth',

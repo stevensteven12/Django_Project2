@@ -50,3 +50,18 @@ Resolve: pip install Twisted[tls,http2]
 2. Error trying to receive messages: name 'txredisapi' is not defined: asgi_redis must update to 1.4.3
 3. ImportError: cannot import name 'build_endpoint_description_strings': daphne update to 1.3.0
 4. 
+
+Celery:
+1. celery -A celery_test worker -l info
+2. python manage.py celery beat
+3. celery -A celery_test purge------- clear all task queue.
+4. celery flower -A proj --address=127.0.0.1 --port=5555 : start to monitor celery
+
+1. Received unregistered task of type task...
+Resolve: CELERY_IMPORTS = (
+    'app2.tasks',
+)
+2. no such table: djkombu_queue: python manage.py migrate.
+
+Send Mail
+1. python manage.py shell

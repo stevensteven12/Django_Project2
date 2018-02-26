@@ -21,7 +21,7 @@ from .models import Question
 
 def index(request):
     # prepare some data
-    x = [0.1, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0]
+    x = [0.2, 0.4, 0.6, 0.8, 2.0, 2.5, 3.0]
     y0 = [i ** 2 for i in x]
     y1 = [10 ** i for i in x]
     y2 = [10 ** (i ** 2) for i in x]
@@ -45,7 +45,7 @@ def index(request):
     p.line(x, y2, legend="y=10^x^2", line_color="orange", line_dash="4 4")
 
     # show the results
-    show(p)
+    # show(p)  # this will create another html file to show
 
     #Feed them to the Django template.
     return render_to_response('stock_api/index.html')

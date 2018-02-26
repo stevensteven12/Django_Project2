@@ -1,0 +1,13 @@
+<script>
+        var tt = 4;
+        var timer = setInterval(function(){callme()},2000);
+
+        function callme() {
+            tt--;
+            alert("this is a test:" + tt);
+
+            if(tt==0){
+                window.clearInterval(timer);
+            }
+        }
+    </script>
