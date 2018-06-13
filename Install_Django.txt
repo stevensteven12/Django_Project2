@@ -35,6 +35,9 @@ Django
 10. python manage.py runserver
 11. python manage.py runserver 8080
 
+Enter python shell
+1. python manage.py shell // can not use "python" only
+
 Others:
 1. Enter the virtual environment: 
    path C:\Users\Steven\Envs\pythonthreeEnv\Scripts
