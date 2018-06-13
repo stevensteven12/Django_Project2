@@ -1,7 +1,13 @@
-from django.shortcuts import render
+import requests
+import time
+
 
 def hello(message):
     print("Hello, Channels! " + message['name'])  # long running task or printing
+
+#    time.sleep(3)
+#    r = requests.get('http://127.0.0.1:8000/')
+#    print("content-type:" + r.headers['content-type'] + ", " + message['name'])
 
 
 def websocket_receive(message):

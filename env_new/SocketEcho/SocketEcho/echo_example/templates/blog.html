@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <title>Live Log</title>
+
+    <style>
+        body {
+            font-family: Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Source Han Sans CN",Roboto,"Microsoft Yahei",sans-serif;
+        }
+
+        #container {
+            margin: 1em;
+        }
+
+        #container h2 {
+            border-left: 0.25em solid red;
+            padding-left: 0.5em;
+        }
+
+        ul#log {
+            list-style-type: none;
+            -webkit-padding-start: 0;
+        }
+
+        ul#log li {
+            border-bottom: 0.1em dashed;
+        }
+
+        ul#log li p {
+            color: #999;
+            font-size: 0.8em;
+        }
+
+        ul#log li p span {
+            float: right;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="container">
+        <h2>Test Blog</h2>
+        <ul id="log">
+
+        </ul>
+    </div>
+
+    <div style="text-align:center">
+  <h1>
+    WebSockets Example Current value:{{num}}
+  </h1>
+  <input id="clickStart" type="button" value="Start" onclick="start();" />
+  <input id="clickStop" type="button" value="Stop" onclick="stop();" />
+  <input id="clickPass" type="button" value="Draw" onclick="draw();" />
+  <input id="clickCandle" type="button" value="CandleStick" onclick="candle();" />
+  <input id="clickRawData" type="button" value="RawData" onclick="raw_data();" />
+</div>
+
+    <div>
+        <textarea id="rawData_txt" rows="4" cols="50">
+
+        </textarea>
+    </div>
+
+    <div>
+        <h2>Input</h2>
+        Name: <input id="Message_Edit" type="text" name="fname">
+        <input id="clickEditMsg" type="button" value="Pass Message" onclick="PassMsg();" />
+    </div>
+
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+
+<div id="id1">
+
+</div>
+
+    <script type="application/javascript">
+
+    /*
+       var socket = new WebSocket('ws://' + window.location.host + '/chat/');
+
+        socket.onmessage = function(e) {
+          var x = document.getElementById("id1");
+        //  var x = $('#id1');
+          if (e.data != null && e.data.length > 100){
+            var ID_start = e.data.indexOf("<div id");
+            var ID_end = e.data.indexOf("function");
+            var n_function = e.data.indexOf("function");
+            var head_ID= e.data.substring(ID_start, ID_end);
+            var script_str= e.data.substring(n_function, e.data.length + 1);
+
+            console.log(head_ID);
+
+            x.innerHTML= head_ID;
+            var tags = x.getElementsByTagName('script');
+            for (var i = tags.length; i >= 0; i--){ //search backwards within nodelist for matching elements to remove
+                if (tags[i])
+                    tags[i].parentNode.removeChild(tags[i]); //remove element by calling parentNode.removeChild()
+            }
+
+            var script = document.createElement('script');
+            if(x.contains(script)){
+                x.removeChild(script);
+                }
+
+            script.type = 'text/javascript';
+            script.text =  script_str;
+            x.appendChild(script);
+            document.body.appendChild(x);
+
+            } else {
+                var logItem = document.createElement('li');
+                var logList = document.querySelector('#log');
+                logItem.innerHTML = e.data;
+                logList.insertBefore(logItem, logList.firstChild);
+            }
+       }
+       */
+
+        var socket = new WebSocket('ws://' + window.location.host + '/chat/');
+
+        socket.onmessage = function(e) {
+            var gotTX00 = e.data.includes("TX00");
+            if (gotTX00 == true){
+                var text_rawdata =  document.getElementById("rawData_txt");
+                var new_data= e.data.replace(/MMM/g,"\n");
+                new_data= document.getElementById("rawData_txt").value.trim() + new_data
+                document.getElementById("rawData_txt").innerHTML= new_data;
+
+                text_rawdata.scrollTop = text_rawdata.scrollHeight;
+
+
+             //   document.getElementById("rawData_txt").value= document.getElementById("rawData_txt").value + new_data;
+            } else if (e.data != null && e.data.length > 100){
+                 google.charts.load('current', {'packages':['corechart']});
+                google.charts.setOnLoadCallback(drawChart);
+                function drawChart() {
+
+                //    var array_data = e.data.split(',');
+                    var parsedTest = JSON.parse(e.data);
+                    var array_size= parsedTest.length
+                    var data_array= new Array(array_size);
+                    for (i in parsedTest) {
+                        var single_array = parsedTest[i];
+                        data_array[i]= single_array;
+                    }
+
+                    var data = google.visualization.arrayToDataTable(
+                    data_array, true);
+
+                    var options = {
+                    legend:'none'
+                    };
+
+                    var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+
+                    chart.draw(data, options);
+                }
+            } else {
+                var logItem = document.createElement('li');
+                var logList = document.querySelector('#log');
+                logItem.innerHTML = e.data;
+                logList.insertBefore(logItem, logList.firstChild);
+            }
+       }
+
+       socket.onopen = function() {
+          socket.send("hello world");
+          }
+       // Call onopen directly if socket is already open
+       if (socket.readyState == WebSocket.OPEN)
+         socket.onopen();
+
+ function start(){
+  socket.send('start');
+    }
+ function stop() {
+  socket.send('stop');
+    }
+ function draw() {
+  socket.send('draw');
+    }
+ function PassMsg() {
+    var x = document.getElementById("Message_Edit").value
+    socket.send(x);
+  }
+ function candle() {
+    socket.send('candlestick');
+  }
+ function raw_data() {
+    var content =  document.getElementById("rawData_txt").value.trim();
+    if(content != ""){
+        var lastLine = content.substr(content.lastIndexOf("\n")+1);
+        var array_data = lastLine.split(',');
+        var LastRow= array_data[array_data.length - 1];
+        socket.send('rawdata_LastRow');
+    } else {
+        socket.send('rawdata_0');
+    }
+  }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+</head>
+<body>
+
+<table class="striped">
+    <thead>
+    <tr>
+        <th>创建用户</th>
+        <th>文章标题</th>
+        <th>创建时间</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for article in articles %}
+        <tr>
+            <td>{{ article.create_by }}</td>
+            <td>{{ article.title }}</td>
+            <td>{{ article.create_date }}</td>
+            <td>
+                <form action="{% url 'remove' article.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="删除" class="btn">
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% for message in messages %}
+    <div class="card-panel teal lighten-2">{{ message }}</div>
+{% endfor %}
+
+</body>
+</html>

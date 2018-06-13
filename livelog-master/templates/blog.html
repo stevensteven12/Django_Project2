@@ -50,7 +50,8 @@
     <script type="application/javascript">
         var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
         var ws = new WebSocket(ws_scheme + '://' + window.location.host + window.location.pathname);
-        var ws_test = new WebSocket("ws://" + window.location.host + "/chat/");
+     //   var ws_test = new WebSocket("ws://" + window.location.host + "/chat/");
+        var ws_test = new WebSocket("ws://" + window.location.host);
         console.log(ws);
         ws.onmessage = function (message) {
             var data = JSON.parse(message.data);
@@ -69,13 +70,10 @@
             logList.insertBefore(logItem, logList.firstChild);
         }
 
-    //    ws_test.onmessage = function (message) {
-    //        alert(message.data);
-    //    }
+        ws_test.onmessage = function (message) {
+      //      alert(message.data);
+        }
 
-    //    ws_test.onopen = function() {
-    //        ws_test.send("hello world");
-    //    }
 
     </script>
 </body>
