@@ -1,5 +1,4 @@
 from django.shortcuts import render
-import matplotlib.pyplot as plt, mpld3
 import numpy as np
 
 

@@ -15,10 +15,12 @@
 
 {% block script %}
   <script>
-    var socket = new WebSocket('ws://' + window.location.host + '/users/');
+  //  var socket = new WebSocket('ws://' + window.location.host + '/users/');
+    var socket = new WebSocket('ws://' + window.location.host);
 
     socket.onopen = function open() {
       console.log('WebSockets connection created.');
+      socket.send('Hello Server!');
     };
 
     socket.onmessage = function message(event) {
