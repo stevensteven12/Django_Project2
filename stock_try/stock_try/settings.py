@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-import djcelery
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -35,23 +34,14 @@ ALLOWED_HOSTS = []
 #BROKER_URL = 'amqp://'
 #BROKER_URL = 'django://'
 BROKER_URL = 'redis://localhost//'
-# Celery settings
-# 如果rabbitmq運行在默認設置下，CELERY不需要其他信息，只要amqp://即可。
 # BROKER_URL = 'amqp://guest:guest@localhost:5672//'
 BROKER_URL = 'amqp://'
-CELERY_RESULT_BACKEND = 'amqp://'
 #: Only add pickle to this list if your broker is secured
-#: from unwanted access (see userguide/security.html)
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'Asia/Taipei'
-CELERY_ENABLE_UTC = True
+
 
 
 
 INSTALLED_APPS = [
-    'djcelery',  #celery: used for schedule control
     'kombu.transport.django',
     'polls.apps.PollsConfig',
     'stock_api',
