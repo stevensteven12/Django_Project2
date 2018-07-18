@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<!-- Website template by freewebsitetemplates.com -->
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript" src="js/table.js"></script>
+
+	<title>The Shop - Women Clothing Web Template</title>
+	<link rel="stylesheet" href="css/style.css" type="text/css">
+</head>
+<body>
+
+	<div id="header">
+		<div>
+			<div id="logo">
+				<a href="index.html"><img src="images/logo_back.png" alt="LOGO"></a>
+			</div>
+			<ul id="navigation">
+				<li>
+					<a href="index.html">首頁</a>
+				</li>
+				<li class="selected">
+					<a href="Stock.html">股票程式</a>
+				</li>
+				<li>
+					<a href="android.html">藍芽/NFC</a>
+				</li>
+				<li>
+					<a href="windows.html">程式客製化</a>
+				</li>
+				<li>
+					<a href="contact.html">聯絡我們</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div id="contents">
+
+	<!--	<input id="clickCandle" type="button" value="CandleStick" onclick="candle();" /> -->
+
+		<div id="shop">
+			<div>
+			<!--	<a href="Stock.html"><img src="images/stare.jpg" alt="Img"></a>-->
+			<!--	<button id="clickCandle" onclick="candle()" onMouseOver="this.style.cursor='pointer'" type="button"><img src="/static/images/stock.jpg" alt="Img"></button>-->
+				<br><input type="image" src="images/stock.jpg" name="image" onclick="candle()" width="270" height="180"><br>
+				<h3>顯示 K 線圖</h3>
+				<p>
+					<div id="chart_div" style="width: 900px; height: 500px;"></div>
+				</p>
+			</div>
+			<div>
+			<!--	<button id="clickRawData" onclick="raw_data()" onMouseOver="this.style.cursor='pointer'" type="button"><img src="/static/images/in_time_data.jpg" alt="Img"></button>-->
+				<br><input type="image" src="images/in_time_data.jpg" name="image" onclick="raw_data()" width="270" height="180"><br>
+				<h3>顯示即時資料</h3>
+				<p>
+					<textarea id="rawData_txt" rows="20" cols="100">
+        			</textarea>
+					<div id="div_Table" style="OVERFLOW: auto; HEIGHT: 200px">
+						 <table id= "tb_id" class="scroll">
+							 <thead>
+        						<tr>
+            						<th>序號</th>
+            						<th>商品</th>
+            						<th>日期</th>
+            						<th>時間</th>
+            						<th>開盤</th>
+            						<th>最高</th>
+            						<th>最低</th>
+            						<th>收盤</th>
+            						<th>總量</th>
+        						</tr>
+    						</thead>
+
+						 </table>
+					</div>
+				</p>
+			</div>
+
+		</div>
+
+	</div>
+	<div id="footer">
+		<div id="connect">
+
+		</div>
+		<p>
+			All Rights Reserved.
+		</p>
+	</div>
+
+
+ <script type="application/javascript">
+        var socket = new WebSocket('ws://' + window.location.host + '/chat/');
+
+        socket.onmessage = function(e) {
+            var gotTX00 = e.data.includes("TX00");
+            if (gotTX00 == true){ // TX00 raw data
+            	var new_data= e.data.replace(/MMM/g,"\n");
+
+                var text_rawdata =  document.getElementById("rawData_txt");
+                var update_new_data= document.getElementById("rawData_txt").value.trim() + new_data
+                document.getElementById("rawData_txt").innerHTML= update_new_data;
+                text_rawdata.scrollTop = text_rawdata.scrollHeight;
+
+
+                tableCreate(new_data);
+
+            } else if (e.data != null && e.data.length > 100){ // Dras candle stick
+                 google.charts.load('current', {'packages':['corechart']});
+                google.charts.setOnLoadCallback(drawChart);
+                function drawChart() {
+
+                //    var array_data = e.data.split(',');
+                    var parsedTest = JSON.parse(e.data);
+                    var array_size= parsedTest.length
+                    var data_array= new Array(array_size);
+                    for (i in parsedTest) {
+                        var single_array = parsedTest[i];
+                        data_array[i]= single_array;
+                    }
+
+                    var data = google.visualization.arrayToDataTable(
+                    data_array, true);
+
+                    var options = {
+                    legend:'none'
+                    };
+
+                    var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+
+                    chart.draw(data, options);
+                }
+            } else {
+                var logItem = document.createElement('li');
+                var logList = document.querySelector('#log');
+                logItem.innerHTML = e.data;
+                logList.insertBefore(logItem, logList.firstChild);
+            }
+       }
+
+       socket.onopen = function() {
+          socket.send("hello world");
+          }
+       // Call onopen directly if socket is already open
+       if (socket.readyState == WebSocket.OPEN)
+         socket.onopen();
+
+ function start(){
+  socket.send('start');
+    }
+ function stop() {
+  socket.send('stop');
+    }
+ function draw() {
+  socket.send('draw');
+    }
+ function PassMsg() {
+    var x = document.getElementById("Message_Edit").value
+    socket.send(x);
+  }
+ function candle() {
+    socket.send('candlestick');
+  }
+ function raw_data() {
+
+    var content =  document.getElementById("rawData_txt").value.trim();
+    if(content != ""){
+        var lastLine = content.substr(content.lastIndexOf("\n")+1);
+        var array_data = lastLine.split(',');
+        var LastRow= array_data[array_data.length - 1];
+     //   socket.send('rawdata_LastRow');
+        socket.send('rawdata_' + LastRow);
+    } else {
+        socket.send('rawdata_0');
+    }
+
+  }
+
+   </script>
+
+<script>
+	var $table = $('table.scroll'),
+    $bodyCells = $table.find('tbody tr:first').children(),
+    colWidth;
+
+	// Adjust the width of thead cells when window resizes
+	$(window).resize(function() {
+    // Get the tbody columns width array
+    colWidth = $bodyCells.map(function() {
+        return $(this).width();
+    }).get();
+
+    // Set the width of thead columns
+    $table.find('thead tr').children().each(function(i, v) {
+        $(v).width(colWidth[i]);
+    });
+}).resize(); // Trigger resize handler
+</script>
+</body>
+</html>
