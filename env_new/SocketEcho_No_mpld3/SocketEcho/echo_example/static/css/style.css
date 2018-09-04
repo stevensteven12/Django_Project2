@@ -13,10 +13,10 @@ img {
 	height: 160px;
 }
 #header > div {
-	width: 940px;
+	width: 1040px;
 	margin: 0 auto;
 	padding: 0 10px;
-	text-align: right;
+	text-align: left; /* title click, align left*/
 }
 /** Logo **/
 #logo {
@@ -27,13 +27,13 @@ img {
 	display: inline-block;
 	line-height: 150px;
 	list-style: none;
-	width: 510px;
+	width: 810px;  /* all title width*/
 	margin: 0;
 	padding: 0;
 }
 #navigation li {
 	float: left;
-	width: 102px;
+	width: 130px; /* single title*/
 	text-align: center;
 }
 #navigation li:first-child {
@@ -48,6 +48,34 @@ img {
 #navigation li a:hover, #navigation li.selected a {
 	color: #e29b1f;
 }
+
+#navigation_product {
+	display: inline-block;
+	line-height: 30px;
+	list-style: none;
+	width: 510px;
+	margin-left: 290px;
+	padding: 0;
+}
+#navigation_product li {
+	float: left;
+	width: 102px;
+	text-align: center;
+}
+#navigation_product li:first-child {
+	margin-left: 0;
+}
+#navigation_product li a {
+/**	color: DarkKhaki ; **/
+	color: DarkKhaki ;
+	line-height: 30px;
+	text-decoration: none;
+	text-shadow: -2px 2px 1px #000;
+}
+#navigation_product li a:hover, #navigation li.selected a {
+	color: #e29b1f;
+}
+
 /*------------------------------ CONTENTS ------------------------------*/
 #contents {
 	background: #fff7db url(../images/content-border.jpg) repeat-x left bottom;
@@ -84,15 +112,18 @@ img {
 #contents div#adbox {
 	margin-bottom: 36px;
 	padding: 0;
-	text-align: center;
+	text-align: left;
 }
 #adbox img {
 	margin-bottom: 24px;
 }
 #adbox p {
 	width: 600px;
-	text-align: center;
+	text-align: left;
 	text-indent: 40px;
+
+	color: Blue;
+	font-size: 18px;
 }
 /** Featured **/
 #contents div#featured {
@@ -271,6 +302,13 @@ img {
 	width: 960px;
 	margin: 0 auto;
 	text-align: center;
+}
+
+#svginline {
+  position: relative;
+
+//  width: 500px;
+  overflow-x: visible;
 }
 
 /*------------------------------ Scroll ------------------------------*/

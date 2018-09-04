@@ -6,8 +6,15 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	<script type="text/javascript" src="js/table.js"></script>
+<!--	<script type="text/javascript" src="js/chart_example_1.js ?v=<?=time();?>"></script>-->
+	<script type="text/javascript" src="js/chart_example_1.js"></script>
+	<script type="text/javascript" src="js/svg.js"></script>
+	<script type="text/javascript" src="js/svg.draggable.js"></script>
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
-	<title>The Shop - Women Clothing Web Template</title>
+	<title>JInvent- Webxocket 呈現即時 tick 資料 </title>
+	<meta name="description=" content="以群益API 下載即時股票, 期貨的 tick 資料. 並以 webxocket 顯示即時 tick 資料. 台期外期均可客製整合報價或自動下單">
+<!--	<link rel="stylesheet" href="css/style.css ?v=<?=time();?>" type="text/css">-->
 	<link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 <body>
@@ -30,6 +37,11 @@
 				<li>
 					<a href="windows.html">程式客製化</a>
 				</li>
+
+				<li>
+					<a href="websocket.html">Websocket範例</a>
+				</li>
+
 				<li>
 					<a href="contact.html">聯絡我們</a>
 				</li>
@@ -44,10 +56,12 @@
 			<div>
 			<!--	<a href="Stock.html"><img src="images/stare.jpg" alt="Img"></a>-->
 			<!--	<button id="clickCandle" onclick="candle()" onMouseOver="this.style.cursor='pointer'" type="button"><img src="/static/images/stock.jpg" alt="Img"></button>-->
-				<br><input type="image" src="images/stock.jpg" name="image" onclick="candle()" width="270" height="180"><br>
+				<br><input type="image" src="images/stock.jpg" name="image" onclick="candle_svg()" width="270" height="180"><br>
 				<h3>顯示 K 線圖</h3>
+				<p></p>
 				<p>
-					<div id="chart_div" style="width: 900px; height: 500px;"></div>
+				<!--	<div id="chart_div" style="width: 900px; height: 500px;"></div>-->
+					<svg id="svginline"></svg>
 				</p>
 			</div>
 			<div>
@@ -107,8 +121,12 @@
 
                 tableCreate(new_data);
 
-            } else if (e.data != null && e.data.length > 100){ // Dras candle stick
-                 google.charts.load('current', {'packages':['corechart']});
+            } else if (e.data != null && e.data.length > 100){ // Draw candle stick
+				$("#svginline").empty();
+            	draw_chart("svginline");
+            	data_input(e.data);
+            /*
+                google.charts.load('current', {'packages':['corechart']});
                 google.charts.setOnLoadCallback(drawChart);
                 function drawChart() {
 
@@ -132,11 +150,14 @@
 
                     chart.draw(data, options);
                 }
+                */
             } else {
+            /*
                 var logItem = document.createElement('li');
                 var logList = document.querySelector('#log');
                 logItem.innerHTML = e.data;
                 logList.insertBefore(logItem, logList.firstChild);
+                */
             }
        }
 
@@ -160,8 +181,12 @@
     var x = document.getElementById("Message_Edit").value
     socket.send(x);
   }
- function candle() {
+ function candle() { // for google candlestick
     socket.send('candlestick');
+  }
+
+  function candle_svg() { // for chart drawed by Steven
+    socket.send('candlestick_svg');
   }
  function raw_data() {
 
@@ -179,24 +204,5 @@
   }
 
    </script>
-
-<script>
-	var $table = $('table.scroll'),
-    $bodyCells = $table.find('tbody tr:first').children(),
-    colWidth;
-
-	// Adjust the width of thead cells when window resizes
-	$(window).resize(function() {
-    // Get the tbody columns width array
-    colWidth = $bodyCells.map(function() {
-        return $(this).width();
-    }).get();
-
-    // Set the width of thead columns
-    $table.find('thead tr').children().each(function(i, v) {
-        $(v).width(colWidth[i]);
-    });
-}).resize(); // Trigger resize handler
-</script>
 </body>
 </html>

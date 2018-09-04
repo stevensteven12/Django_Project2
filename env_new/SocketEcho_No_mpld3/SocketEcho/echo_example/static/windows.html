@@ -3,7 +3,8 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>About - Women Clothing Web Template</title>
+	<title>JInvent- 股票期貨 API 及 Windows 客製化程式 </title>
+	<meta name="description=" content="以群益API 下載即時股票, 期貨的 tick 資料. 提供報價及自動下單的整合. 有模擬點擊及 Office (Excel, Word) 的自動化範例">
 	<link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 <body>
@@ -25,15 +26,40 @@
 				<li class="selected">
 					<a href="windows.html">程式客製化</a>
 				</li>
+
+				<li>
+					<a href="websocket.html">Websocket範例</a>
+				</li>
+
 				<li>
 					<a href="contact.html">聯絡我們</a>
 				</li>
 			</ul>
 		</div>
 	</div>
+
+	<div id="header_product">
+		<div>
+			<ul id="navigation_product">
+				<li>
+					<a href="#TX00">即時台期</a>
+				</li>
+				<li>
+					<a href="#Simulate">模擬點擊</a>
+				</li>
+				<li>
+					<a href="#Office">Office自動化</a>
+				</li>
+				<li>
+					<a href="#Database">資料庫應用</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
 	<div id="contents">
 		<div id="about">
-			<h3>台期: 利用 API 即時 tick time 下載範例</h3>
+			<h3 id="TX00">台期: 利用 API 即時 tick time 下載範例</h3>
 			<video width="1000" height="480" controls="controls" autoplay="autoplay">
 				<source src="images/Window_Stock.mp4" type="video/ogg" />
   				<source src="images/Window_Stock.mp4" type="video/mp4" />
@@ -43,7 +69,7 @@
   				</object>
 			</video>
 
-			<h3>模擬點擊: 以程式控制另一隻執行程式 (或商用軟體), 以達到自動執行重複性動作或功能的目的</h3>
+			<h3 id="Simulate">模擬點擊: 以程式控制另一隻執行程式 (或商用軟體), 以達到自動執行重複性動作或功能的目的</h3>
 			<video width="1000" height="480" controls="controls" autoplay="autoplay">
 				<source src="images//Simulate_Click.mp4" type="video/ogg" />
   				<source src="images//Simulate_Click.mp4" type="video/mp4" />
@@ -53,7 +79,17 @@
   				</object>
 			</video>
 
-			<h3>資料庫應用 (保單範例) </h3>
+			<h3 id="Office">Office自動化 </h3>
+			<video width="1000" height="480" controls="controls" autoplay="autoplay">
+				<source src="images//Excel_Auto.mp4" type="video/ogg" />
+  				<source src="images//Excel_Auto.mp4" type="video/mp4" />
+  				<source src="images//Excel_Auto.mp4" type="video/webm" />
+  				<object data="images//Excel_Auto.mp4" width="640" height="440">
+					<embed width="320" height="240" src="images/Excel_Auto.mp4" />
+  				</object>
+			</video>
+
+			<h3 id="Database">資料庫應用 (保單範例) </h3>
 			<br><input type="image" src="images/windows_assurance.png" name="image" width="1000" height="480"><br>
 		</div>
 	</div>

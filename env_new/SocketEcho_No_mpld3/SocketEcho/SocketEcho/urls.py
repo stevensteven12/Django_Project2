@@ -21,7 +21,11 @@ from django.contrib import staticfiles
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^blog/', echo_example.views.livelog, name='echo'),
+#    url(r'^blog/', echo_example.views.livelog, name='echo'),
+    url(r'^', echo_example.views.livelog, name='echo'),
+    url(r'^download', echo_example.views.download_data, name='download_data'),
+    url(r'^upload', echo_example.views.upload_data, name='upload_data'),
+    url(r'^file_download', echo_example.views.file_download, name='file_download'),
 
 ]
 

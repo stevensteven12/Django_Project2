@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<!-- Website template by freewebsitetemplates.com -->
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>JInvent</title>
+	<link rel="stylesheet" href="css/style.css" type="text/css">
+
+    <style>
+        body {
+            font-family: Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Source Han Sans CN",Roboto,"Microsoft Yahei",sans-serif;
+        }
+
+        #container {
+            margin: 1em;
+        }
+
+        #container h2 {
+            border-left: 0.25em solid red;
+            padding-left: 0.5em;
+        }
+
+        ul#log {
+            list-style-type: none;
+            -webkit-padding-start: 0;
+        }
+
+        ul#log li {
+            border-bottom: 0.1em dashed;
+        }
+
+        ul#log li p {
+            color: #999;
+            font-size: 0.8em;
+        }
+
+        ul#log li p span {
+            float: right;
+        }
+
+    </style>
+</head>
+<body>
+	<div id="header">
+		<div>
+			<div id="logo">
+				<a href="index.html"><img src="images/logo_back.png" alt="LOGO"></a>
+			</div>
+			<ul id="navigation">
+				<li>
+					<a href="index.html">首頁</a>
+				</li>
+				<li>
+					<a href="Stock.html">股票程式</a>
+				</li>
+				<li>
+					<a href="android.html">藍芽/NFC</a>
+				</li>
+				<li>
+					<a href="windows.html">程式客製化</a>
+				</li>
+				<li class="selected">
+					<a href="websocket.html">Websocket範例</a>
+				</li>
+				<li>
+					<a href="contact.html">聯絡我們</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div id="contents">
+        <div id="container">
+            <h2>Test Blog</h2>
+            <ul id="log">
+
+            </ul>
+        </div>
+
+        <div>
+            <h2>Input</h2>
+            Name: <input id="Message_Edit" type="text" name="fname">
+            <input id="clickEditMsg" type="button" value="Pass Message" onclick="PassMsg();" />
+        </div>
+
+	</div>
+	<div id="footer">
+		<div id="connect">
+
+		</div>
+		<p>
+			All Rights Reserved.
+		</p>
+	</div>
+
+
+
+<script type="application/javascript">
+        var socket = new WebSocket('ws://' + window.location.host + '/chat/');
+
+        socket.onmessage = function(e) {
+            var gotTX00 = e.data.includes("TX00");
+            if (gotTX00 == true){
+                var text_rawdata =  document.getElementById("rawData_txt");
+                var new_data= e.data.replace(/MMM/g,"\n");
+                new_data= document.getElementById("rawData_txt").value.trim() + new_data
+                document.getElementById("rawData_txt").innerHTML= new_data;
+
+                text_rawdata.scrollTop = text_rawdata.scrollHeight;
+
+
+             //   document.getElementById("rawData_txt").value= document.getElementById("rawData_txt").value + new_data;
+            } else if (e.data != null && e.data.length > 100){
+                 google.charts.load('current', {'packages':['corechart']});
+                google.charts.setOnLoadCallback(drawChart);
+                function drawChart() {
+
+                //    var array_data = e.data.split(',');
+                    var parsedTest = JSON.parse(e.data);
+                    var array_size= parsedTest.length
+                    var data_array= new Array(array_size);
+                    for (i in parsedTest) {
+                        var single_array = parsedTest[i];
+                        data_array[i]= single_array;
+                    }
+
+                    var data = google.visualization.arrayToDataTable(
+                    data_array, true);
+
+                    var options = {
+                    legend:'none'
+                    };
+
+                    var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+
+                    chart.draw(data, options);
+                }
+            } else {
+                var logItem = document.createElement('li');
+                var logList = document.querySelector('#log');
+                logItem.innerHTML = e.data;
+                logList.insertBefore(logItem, logList.firstChild);
+            }
+       }
+
+       socket.onopen = function() {
+          socket.send("hello world");
+          }
+       // Call onopen directly if socket is already open
+       if (socket.readyState == WebSocket.OPEN)
+         socket.onopen();
+
+
+ function PassMsg() {
+    var x = document.getElementById("Message_Edit").value
+    socket.send(x);
+  }
+
+    </script>
+</body>
+</html>

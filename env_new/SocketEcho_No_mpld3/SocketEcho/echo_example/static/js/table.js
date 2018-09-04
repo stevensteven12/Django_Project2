@@ -3,48 +3,7 @@
     var tbl = document.getElementById('tb_id');
 
     tbl.setAttribute('border', '1');
-/*
-    var theader= document.createElement('thead');
-    var tr_1 = document.createElement('tr');
 
-    for (var i = 0; i < 9; i++) {
-        var th_1 = document.createElement('th');
-        switch (i) {
-            case 0:
-                th_1.appendChild(document.createTextNode('序號'));
-                break;
-            case 1:
-                th_1.appendChild(document.createTextNode('商品'));
-                break;
-            case 2:
-                th_1.appendChild(document.createTextNode('日期'));
-                break;
-            case 3:
-                th_1.appendChild(document.createTextNode('時間'));
-                break;
-            case 4:
-                th_1.appendChild(document.createTextNode('開盤'));
-                break;
-            case 5:
-                th_1.appendChild(document.createTextNode('最高'));
-                break;
-            case 6:
-                th_1.appendChild(document.createTextNode('最低'));
-                break;
-            case 7:
-                th_1.appendChild(document.createTextNode('收盤'));
-                break;
-            case 8:
-                th_1.appendChild(document.createTextNode('總量'));
-                break;
-        }
-        tr_1.appendChild(th_1);
-    }
-
-    theader.appendChild(tr_1);
-    tbl.appendChild(theader);
-    body.appendChild(tbl)
-*/
     var tbdy = document.createElement('tbody');
 
     var content= new_data.split('\n');
@@ -69,8 +28,8 @@
         tbdy.appendChild(tr);
     }
     tbl.appendChild(tbdy);
- //   body.appendChild(tbl);
-    $(document).ready( scrollToBottom );
+
+//    $(document).ready( scrollToBottom );
 }
 
 function scrollToBottom() {
